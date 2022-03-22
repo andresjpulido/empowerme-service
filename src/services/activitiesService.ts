@@ -14,11 +14,12 @@ export default class ActivityService {
 	}
 
 	public async delete(activityId) {
-		if (activityId) if (!mongoose.Types.ObjectId.isValid(activityId)) return;
+		  
+		if (activityId) if (!mongoose.Types.ObjectId.isValid(activityId)) return null;
 
-		if (!activityId) return;
- 
-		await activityModel.findByIdAndDelete(activityId);
+		if (!activityId) return null;
+  
+		return await activityModel.findByIdAndDelete(activityId);
 	}
 
 	public async update(id, activity) {

@@ -12,7 +12,7 @@ export default (app) => {
 		const serviceInstance = Container.get(activitiesService);
 		let list = [];
 		list = await serviceInstance.get(queryObj);
-
+		if (list.length == 0) res.status(404).end();
 		return res.json(list);
 	});
 	app.get("/activities/:id", async (req, res, next) => {
@@ -22,8 +22,8 @@ export default (app) => {
 		const serviceInstance = Container.get(activitiesService);
 		let list = [];
 		list = await serviceInstance.get(queryObj);
-
-		return res.json(list);
+		if (list.length == 0) res.status(404).end();
+		return res.json(list[0]);
 	});
 	app.put("/activities/:id", async (req, res, next) => {
 		//Validate params
@@ -50,11 +50,6 @@ export default (app) => {
 		)
 			res.status(400).end();
 
-		if (activity.longitude === undefined) activity.longitude = 0;
-		if (activity.latitude === undefined) activity.latitude = 0;
-		if (activity.url === undefined) activity.url = "x";
-		if (activity.description === undefined) activity.description = "x";
-		console.log(activity);
 		const serviceInstance = Container.get(activitiesService);
 		let list = [];
 		list = await serviceInstance.create(activity);
@@ -66,9 +61,10 @@ export default (app) => {
 		const id = req.params.id;
 
 		const serviceInstance = Container.get(activitiesService);
-		console.log(id);
-		await serviceInstance.delete(id);
-
+		 
+		let obj = await serviceInstance.delete(id);
+		 
+		if (!obj) return res.status(404).end();
 		return res.json(id);
 	});
 };

@@ -20,7 +20,7 @@ describe("Activity Test Suite", () => {
 
 		test("GET activities by id", async () => {
 			await request.get(`/api/activities/1`)
-				.expect(200);
+				.expect(404);
 		});
 
 		test("GET activities by id 6238e8210000646efa367326", async () => {
@@ -45,7 +45,7 @@ describe("Activity Test Suite", () => {
 			})
 			.expect(200);
 		}); 
-		
+
 		test("DELETE activities", async () => {
 			await request.delete(`/api/activities/1`)
 				.expect(200);
